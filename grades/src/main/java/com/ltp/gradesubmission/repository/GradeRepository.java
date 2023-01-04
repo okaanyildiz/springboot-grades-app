@@ -1,29 +1,19 @@
 package com.ltp.gradesubmission.repository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
+import javax.transaction.Transactional;
 
-import com.ltp.gradesubmission.Grade;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public class GradeRepository {
-    private List<Grade> studentGrades = new ArrayList<>();
+import com.ltp.gradesubmission.entity.Grade;
 
-    public Grade getGrade(int index) {
-        return studentGrades.get(index);
-    }
+public interface GradeRepository extends CrudRepository<Grade, Long> {
+     Optional<Grade> findByStudentIdAndCourseId(Long studentId, Long courseId);
+     List<Grade> findByStudentId(Long studentId);
+     List<Grade> findByCourseId(Long courseId);
+     @Transactional
+     void deleteByStudentIdAndCourseId(Long studentId, Long courseId);
 
-    public void addGrade(Grade grade) {
-        studentGrades.add(grade);
-    }
-
-    public void updateGrade(Grade grade, int index) {
-        studentGrades.set(index, grade);
-    }
-
-    public List<Grade> getGrades() {
-        return studentGrades;
-    }
 }
